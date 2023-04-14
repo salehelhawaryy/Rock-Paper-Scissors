@@ -41,13 +41,10 @@ function game(playerName){
       let playerSelection= prompt(playerName+" enter your selection");
       let res=playRound(playerSelection,getComputerChoice());
       console.log(res);
-
-
-        if(res.charAt(4)=='W')
+      if(res.charAt(4)=='W')
           winsPlayer++;
-        if(res.charAt(4)=='L')
+      if(res.charAt(4)=='L')
           winsComputer++;
-      
     }
 
   
