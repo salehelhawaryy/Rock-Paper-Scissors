@@ -1,4 +1,28 @@
 
+const div=document.querySelector('.res');
+const won=document.querySelector('.won');
+const lost=document.querySelector('.lost');
+const main=document.querySelector('body');
+
+let winsPlayer=0;
+let winsComputer=0;
+
+
+const redo=document.createElement('button');
+redo.style.width="100px";
+redo.style.height="100px";
+redo.textContent="Try Again?";
+redo.addEventListener("click", () => {
+  winsComputer=0;
+  winsPlayer=0;
+  won.textContent="Won: "+winsPlayer;
+lost.textContent="Lost: "+winsComputer;
+  redo.remove();
+})
+
+won.textContent="Won: "+winsPlayer;
+lost.textContent="Lost: "+winsComputer;
+
 function getComputerChoice() {
     let rand=Math.floor((Math.random()*3)+1);
     if(rand==1)
@@ -14,45 +38,74 @@ function getComputerChoice() {
 function playRound(player,computer) {
   let playerUse=String(player).toLowerCase();
   let computerUse=String(computer).toLowerCase();
+  let res="";
   if(playerUse==computerUse) 
-    return "Draw! Both choices were "+playerUse;
-  if(playerUse=="paper")
-    {
-        if(computerUse=="rock")
-            return "You Win! Paper Beats Rock";
-        return "You Lose! Scissors Beat Paper"; 
-    }
-  if(playerUse=="rock") 
-  {
-        if(computerUse=="scissors")
-            return "You Win! Rock Beats Scissors";
-        return "You Lose! Paper Beats Rock";
-  }
-  if(computerUse=="paper")
-      return "You Win! Scissors Beat Paper";
-  return "You Lose! Rock Beats Scissors";
+    res="Draw! Both choices were "+playerUse;
+  else {
+    if(playerUse=="paper")
+      {
+          if(computerUse=="rock")
+              res= "You Win! Paper Beats Rock";
+          else
+          res= "You Lose! Scissors Beat Paper"; 
+      }
+    if(playerUse=="rock") 
+      {
+          if(computerUse=="scissors")
+              res= "You Win! Rock Beats Scissors";
+          else
+          res= "You Lose! Paper Beats Rock";
+      }
+    if(playerUse=="scissors")
+      {
+        if(computerUse=="paper")
+            res="You Win! Scissors Beat Paper"
+        else res="You Lose! Rock Beats Scissors"
+      } 
+      }
+  div.textContent=res;
+
+  return res;
 }
 
-function game(playerName){
-  let winsPlayer=0;
-  let winsComputer=0;
-   while(winsPlayer<3 && winsComputer<3)
-    {
-      let playerSelection= prompt(playerName+" enter your selection");
+function game(playerSelection){
+  
+      //let playerSelection= prompt(playerName+" enter your selection");
       let res=playRound(playerSelection,getComputerChoice());
       console.log(res);
       if(res.charAt(4)=='W')
           winsPlayer++;
       if(res.charAt(4)=='L')
           winsComputer++;
-    }
-
   
-  if(winsPlayer==3) 
-    console.log(playerName+" you won the best of 5 games!")
-  else console.log(playerName+ " you lose the best of 5 games :(");
+  won.textContent="Won: "+winsPlayer;
+  lost.textContent="Lost: "+winsComputer;
+  if(winsPlayer==3) {
+    console.log(" you won the best of 5 games!")
+    div.textContent="You won the best of 5 games!"
+    main.append(redo);
+  }
+  if(winsComputer==3){ 
+   console.log(" you lost the best of 5 games :(");
+  div.textContent="You lost the best of 5 games :(";
+   main.append(redo);
+  }
 }
 
-let name=prompt("Player, Enter your name");
-game(name);
+// let name=prompt("Player, Enter your name");
+// game(name);
+
+const btn = document.querySelectorAll("button")
+
+console.log(btn)
+
+
+btn.forEach ( (button) =>{
+  console.log(winsComputer);
+  console.log(winsPlayer)
+  button.addEventListener("click",() =>  game(button.innerHTML))
+ 
+})
+
+
 
